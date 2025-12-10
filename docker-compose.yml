@@ -20,7 +20,7 @@ services:
 
   postgres:
     image: postgres:15
-    container_name: warehouse_mind
+    container_name: stock-management-system
     environment:
       POSTGRES_DB: nestdb
       POSTGRES_USER: postgres
