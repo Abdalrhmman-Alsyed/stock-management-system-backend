@@ -1,12 +1,15 @@
+import { Exclude } from "class-transformer";
+import { Product } from "src/modules/products/entities/product.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-} from 'typeorm';
+  ManyToMany,
+} from "typeorm";
 
-@Entity('users')
+@Entity("users")
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -14,7 +17,8 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @Column()
+  @Column({ select: false })
+  @Exclude()
   passwordHash: string;
 
   @Column()
@@ -22,6 +26,9 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @ManyToMany(() => Product, (product) => product.users)
+  products: Product[];
 
   @CreateDateColumn()
   createdAt: Date;

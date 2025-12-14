@@ -1,12 +1,18 @@
-import { Category } from 'src/modules/category/entities/category.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Location } from 'src/modules/location/entities/location.entity';
+import { Category } from "src/modules/category/entities/category.entity";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  OneToOne,
+  ManyToMany,
+  JoinTable,
+} from "typeorm";
+import { Location } from "../../../modules/location/entities/location.entity";
+import { User } from "../../../modules/user/entities/user.entity";
 
-// import { Category } from '../category/category.entity';
-// import { Location } from '../location/location.entity';
-
-
-@Entity()
+@Entity("products")
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
@@ -20,11 +26,21 @@ export class Product {
   @Column()
   quantity: number;
 
-  @ManyToOne(() => Category, category => category.products)
-  @JoinColumn({ name: 'category_id' })
-  category: Category;
+  @ManyToMany(() => User, (user) => user.products)
+  @JoinTable({
+    name: "prodcut_user_invoice",
+    joinColumn: {
+      name: "product_id",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "user_id",
+      referencedColumnName: "id",
+    },
+  })
+  users: User[];
 
-  @ManyToOne(() => Location, location => location.products)
-  @JoinColumn({ name: 'location_id' })
-  location: Location;
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: "category_id" })
+  category: Category;
 }
