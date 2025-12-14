@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 
-import { Product } from '../products/product.entity';
-import { Invoice } from '../invoices/invoice.entity';
+import { Product } from "../products/entities/product.entity";
+import { Invoice } from "../invoices/entity/invoice.entity";
 
 @Injectable()
 export class ReportsService {
@@ -12,7 +12,7 @@ export class ReportsService {
     private readonly productRepo: Repository<Product>,
 
     @InjectRepository(Invoice)
-    private readonly invoiceRepo: Repository<Invoice>,
+    private readonly invoiceRepo: Repository<Invoice>
   ) {}
 
   async viewStockLevels() {
@@ -20,6 +20,6 @@ export class ReportsService {
   }
 
   async viewInvoicesAndMovements() {
-    return this.invoiceRepo.find({ relations: ['items', 'items.product'] });
+    return this.invoiceRepo.find({ relations: ["items", "items.product"] });
   }
 }
