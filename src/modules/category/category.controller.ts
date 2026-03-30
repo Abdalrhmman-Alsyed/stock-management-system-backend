@@ -7,42 +7,49 @@ import {
   Param,
   Delete,
   UseGuards,
-} from '@nestjs/common';
-import { CategoryService } from './category.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
-import { AuthGuard } from '../../common/guards/jwt-auth.guard';
-
+  UseInterceptors,
+} from "@nestjs/common";
+import { CategoryService } from "./category.service";
+import { CreateCategoryDto } from "./dto/create-category.dto";
+import { UpdateCategoryDto } from "./dto/update-category.dto";
+import { AuthGuard } from "../../common/guards/jwt-auth.guard";
+import { TransformInterceptor } from "../../common/interceptors/http.interceptor";
+import { RolesGuard } from "../../common/guards/roles.guard";
+import { Role } from "../../common/enum/role.enum";
+import { Roles } from "../../common/decorator/roles.decorator";
 @UseGuards(AuthGuard)
-@Controller('categories')
+@UseInterceptors(TransformInterceptor)
+@UseGuards(RolesGuard)
+@Controller("categories")
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @Roles(Role.ADMIN)
   @Post()
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoryService.create(createCategoryDto);
   }
 
-  @Get('')
+  @Get("")
   findAll() {
     return this.categoryService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.categoryService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch(":id")
   update(
-    @Param('id') id: string,
-    @Body() updateCategoryDto: UpdateCategoryDto,
+    @Param("id") id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto
   ) {
     return this.categoryService.update(+id, updateCategoryDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.categoryService.remove(+id);
   }
 }

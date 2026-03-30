@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsIn } from 'class-validator';
+import { IsString, IsNotEmpty, IsIn } from "class-validator";
+import { Role } from "src/common/enum/role.enum";
 
 export class CreateUserDto {
   @IsString()
@@ -9,6 +10,5 @@ export class CreateUserDto {
   @IsNotEmpty()
   password: string;
 
-  @IsIn(['MANAGER', 'STOREKEEPER'])
-  role: string;
+  role: Role;
 }

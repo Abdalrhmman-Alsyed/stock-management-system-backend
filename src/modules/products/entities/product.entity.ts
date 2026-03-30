@@ -1,4 +1,4 @@
-import { Category } from "src/modules/category/entities/category.entity";
+import { Category } from "../../../modules/category/entities/category.entity";
 import {
   Entity,
   Column,
@@ -40,7 +40,7 @@ export class Product {
   })
   users: User[];
 
-  @ManyToOne(() => Category)
+  @ManyToOne(() => Category, { nullable: false })
   @JoinColumn({ name: "category_id" })
   category: Category;
 }

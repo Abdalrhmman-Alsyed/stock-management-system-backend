@@ -1,5 +1,5 @@
 import { Exclude } from "class-transformer";
-import { Product } from "src/modules/products/entities/product.entity";
+import { Product } from "../../../modules/products/entities/product.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -17,8 +17,7 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @Column({ select: false })
-  @Exclude()
+  @Column({ nullable: false })
   passwordHash: string;
 
   @Column()

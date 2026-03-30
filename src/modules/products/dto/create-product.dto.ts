@@ -3,5 +3,4 @@ export class CreateProductDto {
   barcode: string;
   quantity: number;
   category_id: number;
-  location_id: number;
 }
